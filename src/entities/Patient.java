@@ -233,7 +233,7 @@ public class Patient extends Person {
     }
 
 
-    // Overriding _______________________________________________
+    // Overriding ______________________________________________
 
     @Override
     public void displayInfo() {
