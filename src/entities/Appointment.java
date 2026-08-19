@@ -58,7 +58,6 @@ public class Appointment {
         this.patientId = patientId;
     }
 
-
     public void setDoctorId(String doctorId) {
 
         if (doctorId == null || doctorId.trim().isEmpty()) {
@@ -113,7 +112,6 @@ public class Appointment {
         this.status = status;
     }
 
-
     public void setCompleted(boolean completed) {
         this.completed = completed;
     }
@@ -125,40 +123,76 @@ public class Appointment {
         return appointmentId;
     }
 
-
     public String getPatientId() {
         return patientId;
     }
-
 
     public String getDoctorId() {
         return doctorId;
     }
 
-
     public String getAppointmentDate() {
         return appointmentDate;
     }
-
 
     public String getAppointmentTime() {
         return appointmentTime;
     }
 
-
     public String getReason() {
         return reason;
     }
-
 
     public String getStatus() {
         return status;
     }
 
-
     public boolean isCompleted() {
         return completed;
     }
+    // * Complete Appointment *
+
+    public void completeAppointment() {
+
+        completed = true;
+        status = "Completed";
+
+        IO.println("Appointment completed.");
+    }
+
+
+    // Cancel Appointment
+
+    public void cancelAppointment() {
+
+        if (completed) {
+            IO.println("Completed appointment cannot be cancelled.");
+            return;
+        }
+
+        status = "Cancelled";
+
+        IO.println("Appointment cancelled.");
+    }
+
+
+    // * Confirm Appointment *
+
+    public void confirmAppointment() {
+
+        if (completed) {
+            IO.println("Appointment is already completed.");
+            return;
+        }
+
+        status = "Confirmed";
+
+        IO.println("Appointment confirmed.");
+    }
+
+
+
 }
+
 
 
