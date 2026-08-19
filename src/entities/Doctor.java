@@ -2,7 +2,7 @@ package entities;
 
 public class Doctor extends Person {
 
-    // Doctor Attributes
+    // * Doctor Attributes *
     private String specialization;
     private int experienceYears;
     private double consultationFee;
@@ -16,7 +16,7 @@ public class Doctor extends Person {
     private boolean onCall;
 
 
-    // Constructor
+    // * Constructor *
 
     public Doctor(
             String id,
@@ -127,7 +127,7 @@ public class Doctor extends Person {
     public int getPatientLoad() {
         return patientCount;
     }
-// Slot Methods _____________________________________________
+// * Slot Methods *
 
     public void addSlot(String slot) {
 
@@ -194,7 +194,7 @@ public class Doctor extends Person {
     }
 
 
-    // Patient Assignment _______________________________________
+    //* Patient Assignment *
 
     public void assignPatient(String patientId) {
 
@@ -235,7 +235,7 @@ public class Doctor extends Person {
     }
 
 
-    // Fee Method _______________________________________________
+    //* Fee Method *
 
     public void raiseFee(double amount) {
 
