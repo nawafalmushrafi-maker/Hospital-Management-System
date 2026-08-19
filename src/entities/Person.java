@@ -220,7 +220,20 @@ public class Person {
     }
 
     //
+    public String getFullName() {
+        return getFirstName() + " " + getLastName();
+    }
 
+
+    public void displayInfo() {
+        System.out.println(
+                "ID: " + getId() +
+                        ", Name: " + getFullName() +
+                        ", Age: " + getAge() +
+                        ", Phone: " + getPhoneNumber() +
+                        ", Email: " + getEmail()
+        );
+    }
 
 
 }
