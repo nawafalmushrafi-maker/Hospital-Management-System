@@ -17,7 +17,7 @@ public class Person {
     private boolean activeStatus;
 
 
-    // Full constructor
+    // Full constructor______________
     public Person(String id, String firstName, String lastName,
                   LocalDate dateOfBirth, String gender,
                   String phoneNumber, String email,
@@ -35,4 +35,5 @@ public class Person {
         this.nationalId = nationalId;
         this.age = age;
         this.activeStatus = activeStatus;
+
     }}
