@@ -9,7 +9,7 @@ public class InPatient {
         private int daysAdmitted;
 
 
-        // Constructor ______________________________________________
+        // * Constructor *
 
         public Inpatient(
                 String id,
@@ -33,7 +33,6 @@ public class InPatient {
                 double dailyCharges,
                 int daysAdmitted) {
 
-            // Person -> Patient -> InPatient
             super(
                     id,
                     firstName,
@@ -60,12 +59,12 @@ public class InPatient {
         }
 
 
-        // Setters _________________________________________________
+        // * Setters *
 
         public void setAdmissionDate(String admissionDate) {
 
             if (admissionDate == null || admissionDate.trim().isEmpty()) {
-                System.out.println("Admission date cannot be empty.");
+                IO.println("Admission date cannot be empty.");
                 return;
             }
 
@@ -76,7 +75,7 @@ public class InPatient {
         public void setRoomNumber(String roomNumber) {
 
             if (roomNumber == null || roomNumber.trim().isEmpty()) {
-                System.out.println("Room number cannot be empty.");
+                IO.println("Room number cannot be empty.");
                 return;
             }
 
@@ -106,7 +105,7 @@ public class InPatient {
         }
 
 
-        // Getters _________________________________________________
+        // * Getters *
 
         public String getAdmissionDate() {
             return admissionDate;
@@ -128,13 +127,77 @@ public class InPatient {
         }
 
 
-        // Calculate Total Charges _________________________________
+        // * Calculate Total Charges *
 
         public double calculateTotalCharges() {
 
             return dailyCharges * daysAdmitted;
         }
+        // * Add One Day *
+
+        public void addDay() {
+
+            daysAdmitted++;
+
+            System.out.println(
+                    "One day added. Total days: " + daysAdmitted
+            );
+        }
+
+
+        // * Update Room *
+
+        public void changeRoom(String newRoomNumber) {
+
+            if (newRoomNumber == null ||
+                    newRoomNumber.trim().isEmpty()) {
+
+                System.out.println("Room number cannot be empty.");
+                return;
+            }
+
+            roomNumber = newRoomNumber;
+
+            System.out.println(
+                    "Room changed to: " + roomNumber
+            );
+        }
+
+
+        // * Discharge Patient *
+
+        public void dischargePatient() {
+
+            setActive(false);
+
+            System.out.println(
+                    "Patient " + getFullName() +
+                            " has been discharged."
+            );
+        }
+
+
+        // * Display Information *
+
+        @Override
+        public void displayInfo() {
+
+            System.out.println(
+                    "In-Patient: " + getFullName() +
+                            ", ID: " + getId() +
+                            ", Blood Group: " + getBloodGroup() +
+                            ", Admission Date: " + getAdmissionDate() +
+                            ", Room: " + getRoomNumber() +
+                            ", Daily Charges: " + getDailyCharges() +
+                            ", Days Admitted: " + getDaysAdmitted() +
+                            ", Total Charges: " + calculateTotalCharges() +
+                            ", Active: " + isActive()
+            );
+        }
     }
+
 }
+
+
 
 
