@@ -67,7 +67,7 @@ public class Doctor extends Person {
     public void setSpecialization(String specialization) {
 
         if (specialization == null || specialization.trim().isEmpty()) {
-            System.out.println("Specialization cannot be empty.");
+            IO.println("Specialization cannot be empty.");
             return;
         }
 
@@ -78,7 +78,7 @@ public class Doctor extends Person {
     public void setExperienceYears(int experienceYears) {
 
         if (experienceYears < 0) {
-            System.out.println("Experience years cannot be negative.");
+            IO.println("Experience years cannot be negative.");
             return;
         }
 
@@ -89,7 +89,7 @@ public class Doctor extends Person {
     public void setConsultationFee(double consultationFee) {
 
         if (consultationFee < 0) {
-            System.out.println("Consultation fee cannot be negative.");
+            IO.println("Consultation fee cannot be negative.");
             return;
         }
 
@@ -132,17 +132,17 @@ public class Doctor extends Person {
     public void addSlot(String slot) {
 
         if (slot == null || slot.trim().isEmpty()) {
-            System.out.println("Slot cannot be empty.");
+            IO.println("Slot cannot be empty.");
             return;
         }
 
         if (hasSlot(slot)) {
-            System.out.println("Slot already exists.");
+            IO.println("Slot already exists.");
             return;
         }
 
         if (slotCount >= availableSlots.length) {
-            System.out.println("Slot list is full.");
+            IO.println("Slot list is full.");
             return;
         }
 
@@ -171,7 +171,7 @@ public class Doctor extends Person {
     public void removeSlot(String slot) {
 
         if (slot == null || slot.trim().isEmpty()) {
-            System.out.println("Slot cannot be empty.");
+            IO.println("Slot cannot be empty.");
             return;
         }
 
@@ -190,7 +190,7 @@ public class Doctor extends Person {
             }
         }
 
-        System.out.println("Slot not found.");
+        IO.println("Slot not found.");
     }
 
 
@@ -199,17 +199,17 @@ public class Doctor extends Person {
     public void assignPatient(String patientId) {
 
         if (patientId == null || patientId.trim().isEmpty()) {
-            System.out.println("Patient ID cannot be empty.");
+            IO.println("Patient ID cannot be empty.");
             return;
         }
 
         if (hasPatient(patientId)) {
-            System.out.println("Patient is already assigned.");
+            IO.println("Patient is already assigned.");
             return;
         }
 
         if (patientCount >= assignedPatientIds.length) {
-            System.out.println("Patient list is full.");
+            IO.println("Patient list is full.");
             return;
         }
 
@@ -240,7 +240,7 @@ public class Doctor extends Person {
     public void raiseFee(double amount) {
 
         if (amount <= 0) {
-            System.out.println("Fee increase must be greater than zero.");
+            IO.println("Fee increase must be greater than zero.");
             return;
         }
 
@@ -255,7 +255,7 @@ public class Doctor extends Person {
     @Override
     public void displayInfo() {
 
-        System.out.println(
+        IO.println(
                 "Doctor: " + getFullName() +
                         ", ID: " + getId() +
                         ", Specialization: " + getSpecialization() +
@@ -264,6 +264,23 @@ public class Doctor extends Person {
                         ", Patient Load: " + getPatientLoad() +
                         ", On Call: " + isOnCall()
         );
+    }
+
+    public void updateFee(double fee) {
+        setConsultationFee(fee);
+    }
+
+
+    public void updateFee(double fee, String reason) {
+
+        setConsultationFee(fee);
+
+        if (reason == null || reason.trim().isEmpty()) {
+            IO.println("Reason cannot be empty.");
+            return;
+        }
+
+        IO.println("Reason: " + reason);
     }
 }
 
