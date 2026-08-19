@@ -237,5 +237,32 @@ public class Person {
     public String displaySummary() {
         return getId() + " - " + getFullName();
     }
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id='" + id + '\'' +
+                ", name='" + getFullName() + '\'' +
+                ", age=" + age +
+                ", active=" + active +
+                '}';
+    }
 
+    public boolean isAdult() {
+        return getAge() >= 18;
+    }
+    @Override
+    public boolean equals(Object obj) {
+
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof Person)) {
+            return false;
+        }
+
+        Person other = (Person) obj;
+
+        return id != null && id.equals(other.id);
+    }
 }
