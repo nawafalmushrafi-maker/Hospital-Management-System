@@ -86,7 +86,7 @@ public class InPatient {
         public void setDailyCharges(double dailyCharges) {
 
             if (dailyCharges < 0) {
-                System.out.println("Daily charges cannot be negative.");
+                IO.println("Daily charges cannot be negative.");
                 return;
             }
 
@@ -97,7 +97,7 @@ public class InPatient {
         public void setDaysAdmitted(int daysAdmitted) {
 
             if (daysAdmitted < 0) {
-                System.out.println("Days admitted cannot be negative.");
+                IO.println("Days admitted cannot be negative.");
                 return;
             }
 
@@ -139,7 +139,7 @@ public class InPatient {
 
             daysAdmitted++;
 
-            System.out.println(
+            IO.println(
                     "One day added. Total days: " + daysAdmitted
             );
         }
@@ -152,13 +152,13 @@ public class InPatient {
             if (newRoomNumber == null ||
                     newRoomNumber.trim().isEmpty()) {
 
-                System.out.println("Room number cannot be empty.");
+                IO.println("Room number cannot be empty.");
                 return;
             }
 
             roomNumber = newRoomNumber;
 
-            System.out.println(
+            IO.println(
                     "Room changed to: " + roomNumber
             );
         }
@@ -170,7 +170,7 @@ public class InPatient {
 
             setActive(false);
 
-            System.out.println(
+            IO.println(
                     "Patient " + getFullName() +
                             " has been discharged."
             );
@@ -182,7 +182,7 @@ public class InPatient {
         @Override
         public void displayInfo() {
 
-            System.out.println(
+            IO.println(
                     "In-Patient: " + getFullName() +
                             ", ID: " + getId() +
                             ", Blood Group: " + getBloodGroup() +
@@ -194,6 +194,8 @@ public class InPatient {
                             ", Active: " + isActive()
             );
         }
+        //* add Patient updateContact overloads *
+
         public void updateContact(String phoneNumber) {
             setPhoneNumber(phoneNumber);
         }
