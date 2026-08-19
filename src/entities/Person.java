@@ -234,6 +234,8 @@ public class Person {
                         ", Email: " + getEmail()
         );
     }
-
+    public String displaySummary() {
+        return getId() + " - " + getFullName();
+    }
 
 }
