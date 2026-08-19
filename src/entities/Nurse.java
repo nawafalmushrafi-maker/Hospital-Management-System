@@ -93,7 +93,7 @@ public class Nurse extends Person {
     }
 
 
-    // Getters * ////
+    // Getters * ///
 
     public String getDepartmentId() {
         return departmentId;
@@ -108,6 +108,109 @@ public class Nurse extends Person {
     public int getYearsOfService() {
         return yearsOfService;
     }
+    // Assign Patient *
+
+    public void assignPatient(String patientId) {
+
+        if (patientId == null || patientId.trim().isEmpty()) {
+            System.out.println("Patient ID cannot be empty.");
+            return;
+        }
+
+        if (hasPatient(patientId)) {
+            System.out.println("Patient is already assigned.");
+            return;
+        }
+
+        if (patientCount >= assignedPatientIds.length) {
+            System.out.println("Patient list is full.");
+            return;
+        }
+
+        assignedPatientIds[patientCount] = patientId;
+        patientCount++;
+    }
+
+
+    // Check Patient *
+
+    public boolean hasPatient(String patientId) {
+
+        if (patientId == null || patientId.trim().isEmpty()) {
+            return false;
+        }
+
+        for (int i = 0; i < patientCount; i++) {
+
+            if (assignedPatientIds[i].equalsIgnoreCase(patientId)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    // Unassign Patient *
+
+    public void unassignPatient(String patientId) {
+
+        if (patientId == null || patientId.trim().isEmpty()) {
+            System.out.println("Patient ID cannot be empty.");
+            return;
+        }
+
+        for (int i = 0; i < patientCount; i++) {
+
+            if (assignedPatientIds[i].equalsIgnoreCase(patientId)) {
+
+                for (int j = i; j < patientCount - 1; j++) {
+                    assignedPatientIds[j] =
+                            assignedPatientIds[j + 1];
+                }
+
+                assignedPatientIds[patientCount - 1] = null;
+                patientCount--;
+
+                return;
+            }
+        }
+
+        System.out.println("Patient not assigned to this nurse.");
+    }
+
+
+    // Patient Load *
+
+    public int getPatientLoad() {
+        return patientCount;
+    }
+
+
+    // Night Shift *
+
+    public boolean isNightShift() {
+
+        return shift != null &&
+                shift.equalsIgnoreCase("Night");
+    }
+
+
+    // Overriding *
+
+    @Override
+    public void displayInfo() {
+
+        System.out.println(
+                "Nurse: " + getFullName() +
+                        ", ID: " + getId() +
+                        ", Department ID: " + getDepartmentId() +
+                        ", Shift: " + getShift() +
+                        ", Years of Service: " + getYearsOfService() +
+                        ", Patient Load: " + getPatientLoad()
+        );
+    }
 }
+
 
 
