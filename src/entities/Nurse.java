@@ -93,7 +93,7 @@ public class Nurse extends Person {
     }
 
 
-    // Getters * ///
+    // Getters *
 
     public String getDepartmentId() {
         return departmentId;
