@@ -248,5 +248,5 @@ public class Patient extends Person {
                         ", Insured: " + isInsured()
         );
     }
-}//
+}
 
