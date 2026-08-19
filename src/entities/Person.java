@@ -1,5 +1,38 @@
 package entities;
 
-public class Person {
+import java.time.LocalDate;
 
-}
+public class Person {
+    // Attributes
+    private String id;
+    private String firstName;
+    private String lastName;
+    private LocalDate dateOfBirth;
+    private String gender;
+    private String phoneNumber;
+    private String email;
+    private String address;
+    private String nationalId;
+    private int age;
+    private boolean activeStatus;
+
+
+    // Full constructor
+    public Person(String id, String firstName, String lastName,
+                  LocalDate dateOfBirth, String gender,
+                  String phoneNumber, String email,
+                  String address, String nationalId,
+                  int age, boolean activeStatus) {
+
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.gender = gender;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+        this.address = address;
+        this.nationalId = nationalId;
+        this.age = age;
+        this.activeStatus = activeStatus;
+    }}
