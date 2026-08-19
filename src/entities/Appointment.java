@@ -161,7 +161,7 @@ public class Appointment {
     }
 
 
-    // Cancel Appointment
+    // * Cancel Appointment *
 
     public void cancelAppointment() {
 
@@ -190,9 +190,24 @@ public class Appointment {
         IO.println("Appointment confirmed.");
     }
 
+    // * Display Information *
 
+    public void displayInfo() {
 
+        IO.println(
+                "Appointment ID: " + getAppointmentId() +
+                        ", Patient ID: " + getPatientId() +
+                        ", Doctor ID: " + getDoctorId() +
+                        ", Date: " + getAppointmentDate() +
+                        ", Time: " + getAppointmentTime() +
+                        ", Reason: " + getReason() +
+                        ", Status: " + getStatus() +
+                        ", Completed: " + isCompleted()
+        );
+    }
 }
+
+
 
 
 
