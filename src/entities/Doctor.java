@@ -250,7 +250,7 @@ public class Doctor extends Person {
     }
 
 
-    // Overriding _______________________________________________
+    //* Overriding *
 
     @Override
     public void displayInfo() {
