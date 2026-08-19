@@ -127,7 +127,145 @@ public class Doctor extends Person {
     public int getPatientLoad() {
         return patientCount;
     }
+// Slot Methods _____________________________________________
 
+    public void addSlot(String slot) {
+
+        if (slot == null || slot.trim().isEmpty()) {
+            System.out.println("Slot cannot be empty.");
+            return;
+        }
+
+        if (hasSlot(slot)) {
+            System.out.println("Slot already exists.");
+            return;
+        }
+
+        if (slotCount >= availableSlots.length) {
+            System.out.println("Slot list is full.");
+            return;
+        }
+
+        availableSlots[slotCount] = slot;
+        slotCount++;
+    }
+
+
+    public boolean hasSlot(String slot) {
+
+        if (slot == null || slot.trim().isEmpty()) {
+            return false;
+        }
+
+        for (int i = 0; i < slotCount; i++) {
+
+            if (availableSlots[i].equalsIgnoreCase(slot)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    public void removeSlot(String slot) {
+
+        if (slot == null || slot.trim().isEmpty()) {
+            System.out.println("Slot cannot be empty.");
+            return;
+        }
+
+        for (int i = 0; i < slotCount; i++) {
+
+            if (availableSlots[i].equalsIgnoreCase(slot)) {
+
+                for (int j = i; j < slotCount - 1; j++) {
+                    availableSlots[j] = availableSlots[j + 1];
+                }
+
+                availableSlots[slotCount - 1] = null;
+                slotCount--;
+
+                return;
+            }
+        }
+
+        System.out.println("Slot not found.");
+    }
+
+
+    // Patient Assignment _______________________________________
+
+    public void assignPatient(String patientId) {
+
+        if (patientId == null || patientId.trim().isEmpty()) {
+            System.out.println("Patient ID cannot be empty.");
+            return;
+        }
+
+        if (hasPatient(patientId)) {
+            System.out.println("Patient is already assigned.");
+            return;
+        }
+
+        if (patientCount >= assignedPatientIds.length) {
+            System.out.println("Patient list is full.");
+            return;
+        }
+
+        assignedPatientIds[patientCount] = patientId;
+        patientCount++;
+    }
+
+
+    public boolean hasPatient(String patientId) {
+
+        if (patientId == null || patientId.trim().isEmpty()) {
+            return false;
+        }
+
+        for (int i = 0; i < patientCount; i++) {
+
+            if (assignedPatientIds[i].equalsIgnoreCase(patientId)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    // Fee Method _______________________________________________
+
+    public void raiseFee(double amount) {
+
+        if (amount <= 0) {
+            System.out.println("Fee increase must be greater than zero.");
+            return;
+        }
+
+        setConsultationFee(
+                consultationFee + amount
+        );
+    }
+
+
+    // Overriding _______________________________________________
+
+    @Override
+    public void displayInfo() {
+
+        System.out.println(
+                "Doctor: " + getFullName() +
+                        ", ID: " + getId() +
+                        ", Specialization: " + getSpecialization() +
+                        ", Experience: " + getExperienceYears() + " years" +
+                        ", Consultation Fee: " + getConsultationFee() +
+                        ", Patient Load: " + getPatientLoad() +
+                        ", On Call: " + isOnCall()
+        );
+    }
 }
+
 
 
