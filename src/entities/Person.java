@@ -1,13 +1,11 @@
 package entities;
 
-import java.time.LocalDate;
-
 public class Person {
     // Attributes
     private String id;
     private String firstName;
     private String lastName;
-    private LocalDate dateOfBirth;
+    private String dateOfBirth;
     private String gender;
     private String phoneNumber;
     private String email;
@@ -19,7 +17,7 @@ public class Person {
 
     // Full constructor______________
     public Person(String id, String firstName, String lastName,
-                  LocalDate dateOfBirth, String gender,
+                  String dateOfBirth, String gender,
                   String phoneNumber, String email,
                   String address, String nationalId,
                   int age, boolean activeStatus) {
@@ -36,4 +34,29 @@ public class Person {
         this.age = age;
         this.activeStatus = activeStatus;
 
-    }}
+    }
+    //overloaded
+    public Person(
+            String id,
+            String firstName,
+            String lastName) {
+
+        this(
+                id,
+                firstName,
+                lastName,
+                "N/A",
+                "Unknown",
+                "00000000",
+                "unknown@hospital.com",
+                "N/A",
+                "N/A",
+                0,
+                true
+        );
+
+    }
+
+
+
+}
