@@ -3,36 +3,40 @@ package Services;
 import entities.Appointment;
 import entities.Doctor;
 import entities.Patient;
+import interfaces.Manageable;
+import interfaces.Searchable;
 
-public class Appointmentservice {
+public class Appointmentservice
+        implements Manageable, Searchable {
 
-    private Appointment[] appointments = new Appointment[100];
+    private Appointment[] appointments =
+            new Appointment[100];
+
     private int appointmentCount = 0;
 
 
-    //  1: ID & date
+    // Schedule Overloads
 
     public void schedule(
             String patientId,
             String doctorId,
             String date) {
 
-        Appointment appointment = new Appointment(
-                "A" + (appointmentCount + 1),
-                patientId,
-                doctorId,
-                date,
-                "12:30",
-                "General",
-                "Scheduled",
-                false
-        );
+        Appointment appointment =
+                new Appointment(
+                        "A" + (appointmentCount + 1),
+                        patientId,
+                        doctorId,
+                        date,
+                        "09:00",
+                        "Scheduled",
+                        "General",
+                        false
+                );
 
         addAppointment(appointment);
     }
 
-
-    // 2: IDs & date & time
 
     public void schedule(
             String patientId,
@@ -40,22 +44,21 @@ public class Appointmentservice {
             String date,
             String time) {
 
-        Appointment appointment = new Appointment(
-                "A" + (appointmentCount + 1),
-                patientId,
-                doctorId,
-                date,
-                time,
-                "General",
-                "Scheduled",
-                false
-        );
+        Appointment appointment =
+                new Appointment(
+                        "A" + (appointmentCount + 1),
+                        patientId,
+                        doctorId,
+                        date,
+                        time,
+                        "Scheduled",
+                        "General",
+                        false
+                );
 
         addAppointment(appointment);
     }
 
-
-    //  3: Full objects & reason
 
     public void schedule(
             Patient patient,
@@ -71,35 +74,28 @@ public class Appointmentservice {
             return;
         }
 
-        if (reason == null || reason.trim().isEmpty()) {
-            System.out.println(
-                    "Reason cannot be empty."
-            );
-            return;
-        }
-
-        Appointment appointment = new Appointment(
-                "A" + (appointmentCount + 1),
-                patient.getId(),
-                doctor.getId(),
-                date,
-                time,
-                reason,
-                "Scheduled",
-                false
-        );
+        Appointment appointment =
+                new Appointment(
+                        "A" + (appointmentCount + 1),
+                        patient.getId(),
+                        doctor.getId(),
+                        date,
+                        time,
+                        "Scheduled",
+                        reason,
+                        false
+                );
 
         addAppointment(appointment);
     }
 
 
-    // Add Appointment
+    @Override
+    public void add(Object entity) {
 
-    private void addAppointment(Appointment appointment) {
-
-        if (appointment == null) {
+        if (!(entity instanceof Appointment)) {
             System.out.println(
-                    "Appointment cannot be null."
+                    "Only Appointment objects can be added."
             );
             return;
         }
@@ -111,15 +107,131 @@ public class Appointmentservice {
             return;
         }
 
-        appointments[appointmentCount] = appointment;
+        appointments[appointmentCount] =
+                (Appointment) entity;
+
         appointmentCount++;
     }
 
 
-    // Get Appointment Count
+    @Override
+    public boolean removeById(String id) {
+
+        for (int i = 0; i < appointmentCount; i++) {
+
+            if (appointments[i]
+                    .getAppointmentId()
+                    .equals(id)) {
+
+                for (int j = i;
+                     j < appointmentCount - 1;
+                     j++) {
+
+                    appointments[j] =
+                            appointments[j + 1];
+                }
+
+                appointments[appointmentCount - 1] =
+                        null;
+
+                appointmentCount--;
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    @Override
+    public Object[] getAll() {
+
+        Appointment[] result =
+                new Appointment[appointmentCount];
+
+        for (int i = 0; i < appointmentCount; i++) {
+            result[i] = appointments[i];
+        }
+
+        return result;
+    }
+
+
+    @Override
+    public Object[] search(String keyword) {
+
+        Appointment[] temp =
+                new Appointment[appointmentCount];
+
+        int count = 0;
+
+        for (int i = 0; i < appointmentCount; i++) {
+
+            Appointment appointment =
+                    appointments[i];
+
+            if (appointment
+                    .getAppointmentId()
+                    .toLowerCase()
+                    .contains(keyword.toLowerCase())
+
+                    || appointment
+                    .getPatientId()
+                    .toLowerCase()
+                    .contains(keyword.toLowerCase())
+
+                    || appointment
+                    .getDoctorId()
+                    .toLowerCase()
+                    .contains(keyword.toLowerCase())
+
+                    || appointment
+                    .getStatus()
+                    .toLowerCase()
+                    .contains(keyword.toLowerCase())) {
+
+                temp[count] = appointment;
+                count++;
+            }
+        }
+
+        Appointment[] result =
+                new Appointment[count];
+
+        for (int i = 0; i < count; i++) {
+            result[i] = temp[i];
+        }
+
+        return result;
+    }
+
+
+    @Override
+    public Object searchById(String id) {
+
+        for (int i = 0; i < appointmentCount; i++) {
+
+            if (appointments[i]
+                    .getAppointmentId()
+                    .equals(id)) {
+
+                return appointments[i];
+            }
+        }
+
+        return null;
+    }
+
+
+    private void addAppointment(
+            Appointment appointment) {
+
+        add(appointment);
+    }
+
 
     public int getAppointmentCount() {
         return appointmentCount;
     }
 }
-
