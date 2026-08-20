@@ -1,24 +1,34 @@
 package Services;
 
+import entities.InPatient;
 import entities.Patient;
+import interfaces.Manageable;
+import interfaces.Searchable;
 
-public class Patientservice {
+class PatientService implements Manageable, Searchable {
 
     private Patient[] patients = new Patient[100];
     private int patientCount = 0;
 
 
-    // *Add existing Patient object *
+    // ADD PATIENT OVERLOADS
 
+
+    // 1. Existing Patient object
     public void addPatient(Patient patient) {
 
         if (patient == null) {
-            System.out.println("Patient cannot be null.");
+            IO.println("Patient cannot be null.");
             return;
         }
 
         if (patientCount >= patients.length) {
-            System.out.println("Patient storage is full.");
+            IO.println("Patient storage is full.");
+            return;
+        }
+
+        if (searchById(patient.getId()) != null) {
+            IO.println("Patient ID already exists.");
             return;
         }
 
@@ -26,9 +36,7 @@ public class Patientservice {
         patientCount++;
     }
 
-
-    // * Basic patient details *
-
+    // 2. Basic details
     public void addPatient(
             String id,
             String firstName,
@@ -57,9 +65,7 @@ public class Patientservice {
         addPatient(patient);
     }
 
-
-    // * Patient details + blood group *
-
+    // 3. Details + blood group
     public void addPatient(
             String id,
             String firstName,
@@ -89,11 +95,196 @@ public class Patientservice {
         addPatient(patient);
     }
 
+    // MANAGEABLE
 
-    // * Get Patient Count *
 
+    @Override
+    public void add(Object entity) {
+
+        if (!(entity instanceof Patient)) {
+            IO.println("Only Patient objects can be added.");
+            return;
+        }
+
+        addPatient((Patient) entity);
+    }
+
+    @Override
+    public boolean removeById(String id) {
+
+        for (int i = 0; i < patientCount; i++) {
+
+            if (patients[i].getId().equals(id)) {
+
+                for (int j = i; j < patientCount - 1; j++) {
+                    patients[j] = patients[j + 1];
+                }
+
+                patients[patientCount - 1] = null;
+                patientCount--;
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public Object[] getAll() {
+
+        Patient[] result = new Patient[patientCount];
+
+        for (int i = 0; i < patientCount; i++) {
+            result[i] = patients[i];
+        }
+
+        return result;
+    }
+
+
+    // SEARCHABLE
+
+    @Override
+    public Object[] search(String keyword) {
+
+        Patient[] temp = new Patient[patientCount];
+        int count = 0;
+
+        for (int i = 0; i < patientCount; i++) {
+
+            Patient patient = patients[i];
+
+            if (
+                    patient.getFirstName()
+                            .toLowerCase()
+                            .contains(keyword.toLowerCase())
+
+                            || patient.getLastName()
+                            .toLowerCase()
+                            .contains(keyword.toLowerCase())
+
+                            || patient.getId()
+                            .toLowerCase()
+                            .contains(keyword.toLowerCase())
+            ) {
+
+                temp[count] = patient;
+                count++;
+            }
+        }
+
+        Patient[] result = new Patient[count];
+
+        for (int i = 0; i < count; i++) {
+            result[i] = temp[i];
+        }
+
+        return result;
+    }
+
+    @Override
+    public Object searchById(String id) {
+
+        for (int i = 0; i < patientCount; i++) {
+
+            if (patients[i].getId().equals(id)) {
+                return patients[i];
+            }
+        }
+
+        return null;
+    }
+    // UPDATE CONTACT
+
+
+    public boolean updateContact(
+            String patientId,
+            String phoneNumber) {
+
+        Patient patient =
+                (Patient) searchById(patientId);
+
+        if (patient == null) {
+            return false;
+        }
+
+        patient.updateContact(phoneNumber);
+
+        return true;
+    }
+
+    public boolean updateContact(
+            String patientId,
+            String phoneNumber,
+            String email) {
+
+        Patient patient =
+                (Patient) searchById(patientId);
+
+        if (patient == null) {
+            return false;
+        }
+
+        patient.updateContact(
+                phoneNumber,
+                email
+        );
+
+        return true;
+    }
+
+
+    // LIST INPATIENTS
+
+
+    public InPatient[] listInPatients() {
+
+        InPatient[] temp =
+                new InPatient[patientCount];
+
+        int count = 0;
+
+        for (int i = 0; i < patientCount; i++) {
+
+            if (patients[i] instanceof InPatient) {
+
+                temp[count] =
+                        (InPatient) patients[i];
+
+                count++;
+            }
+        }
+
+        InPatient[] result =
+                new InPatient[count];
+
+        for (int i = 0; i < count; i++) {
+            result[i] = temp[i];
+        }
+
+        return result;
+    }
+
+
+    // TOTAL OUTSTANDING - Task 2.7
+
+
+    public double totalOutstanding() {
+
+        double total = 0;
+
+        for (int i = 0; i < patientCount; i++) {
+            total += patients[i]
+                    .getOutstandingBalance();
+        }
+
+        return total;
+    }
+
+
+    // COUNT
     public int getPatientCount() {
         return patientCount;
     }
 }
-
