@@ -1,5 +1,5 @@
-package Utills;
-public class HelperUtills {
+package utils;
+public class HelperUtils {
     private static int idCounter = 1;
     // Empty Checks
     public static boolean isEmpty(String text) {
