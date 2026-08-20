@@ -11,7 +11,7 @@ public class Surgeon extends Doctor {
     private int upcomingCount;
 
 
-    // Constructor ______________________________________________
+    // Constructor
 
     public Surgeon(
             String id,
@@ -58,7 +58,7 @@ public class Surgeon extends Doctor {
     }
 
 
-    // Setters _________________________________________________
+    // Setters
 
     public void setSurgeriesPerformed(int surgeriesPerformed) {
 
@@ -85,7 +85,7 @@ public class Surgeon extends Doctor {
     }
 
 
-    // Getters _________________________________________________
+    // Getters
 
     public int getSurgeriesPerformed() {
         return surgeriesPerformed;
@@ -96,7 +96,7 @@ public class Surgeon extends Doctor {
     }
 
 
-    // Surgery Methods __________________________________________
+    // Surgery Methods
 
     public void performSurgery() {
 
