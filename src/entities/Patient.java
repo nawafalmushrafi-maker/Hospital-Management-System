@@ -1,5 +1,7 @@
 package entities;
 
+import utils.HelperUtils;
+
 public class Patient extends Person {
 
     private String bloodGroup;
@@ -16,7 +18,7 @@ public class Patient extends Person {
     private boolean insured;
 
 
-    // Constructor ______________________________________________
+    // Constructor
 
     public Patient(
             String id,
@@ -64,12 +66,12 @@ public class Patient extends Person {
     }
 
 
-    // Setters _________________________________________________
+    // Setters
 
     public void setBloodGroup(String bloodGroup) {
 
-        if (bloodGroup == null || bloodGroup.trim().isEmpty()) {
-            System.out.println("Blood group cannot be empty.");
+        if (!HelperUtils.isValidText(bloodGroup)) {
+            IO.println("Blood group cannot be empty.");
             return;
         }
 
@@ -79,8 +81,8 @@ public class Patient extends Person {
 
     public void setEmergencyContact(String emergencyContact) {
 
-        if (emergencyContact == null || emergencyContact.trim().isEmpty()) {
-            System.out.println("Emergency contact cannot be empty.");
+        if (!HelperUtils.isValidText(emergencyContact)) {
+            IO.println("Emergency contact cannot be empty.");
             return;
         }
 
@@ -90,8 +92,8 @@ public class Patient extends Person {
 
     public void setRegistrationDate(String registrationDate) {
 
-        if (registrationDate == null || registrationDate.trim().isEmpty()) {
-            System.out.println("Registration date cannot be empty.");
+        if (!HelperUtils.isValidText(registrationDate)) {
+            IO.println("Registration date cannot be empty.");
             return;
         }
 
@@ -102,7 +104,9 @@ public class Patient extends Person {
     public void setOutstandingBalance(double outstandingBalance) {
 
         if (outstandingBalance < 0) {
-            System.out.println("Outstanding balance cannot be negative.");
+            IO.println(
+                    "Outstanding balance cannot be negative."
+            );
             return;
         }
 
@@ -115,7 +119,7 @@ public class Patient extends Person {
     }
 
 
-    // Getters _________________________________________________
+    // Getters
 
     public String getBloodGroup() {
         return bloodGroup;
@@ -146,22 +150,22 @@ public class Patient extends Person {
     }
 
 
-    // Allergy Methods __________________________________________
+    // Allergy Methods
 
     public void addAllergy(String allergy) {
 
-        if (allergy == null || allergy.trim().isEmpty()) {
-            System.out.println("Allergy cannot be empty.");
+        if (!HelperUtils.isValidText(allergy)) {
+            IO.println("Allergy cannot be empty.");
             return;
         }
 
         if (hasAllergy(allergy)) {
-            System.out.println("Allergy already exists.");
+            IO.println("Allergy already exists.");
             return;
         }
 
         if (allergyCount >= allergies.length) {
-            System.out.println("Allergy list is full.");
+            IO.println("Allergy list is full.");
             return;
         }
 
@@ -171,6 +175,10 @@ public class Patient extends Person {
 
 
     public boolean hasAllergy(String allergy) {
+
+        if (!HelperUtils.isValidText(allergy)) {
+            return false;
+        }
 
         for (int i = 0; i < allergyCount; i++) {
 
@@ -186,27 +194,27 @@ public class Patient extends Person {
     public void listAllergies() {
 
         if (allergyCount == 0) {
-            System.out.println("No allergies.");
+            IO.println("No allergies.");
             return;
         }
 
         for (int i = 0; i < allergyCount; i++) {
-            System.out.println(allergies[i]);
+            IO.println(allergies[i]);
         }
     }
 
 
-    // Medical Record Methods ___________________________________
+    // Medical Records
 
     public void addRecordId(String recordId) {
 
-        if (recordId == null || recordId.trim().isEmpty()) {
-            System.out.println("Record ID cannot be empty.");
+        if (!HelperUtils.isValidText(recordId)) {
+            IO.println("Record ID cannot be empty.");
             return;
         }
 
         if (recordCount >= recordIds.length) {
-            System.out.println("Record list is full.");
+            IO.println("Record list is full.");
             return;
         }
 
@@ -215,12 +223,14 @@ public class Patient extends Person {
     }
 
 
-    // Balance Methods __________________________________________
+    // Balance
 
     public void addToBalance(double amount) {
 
-        if (amount <= 0) {
-            System.out.println("Amount must be greater than zero.");
+        if (!HelperUtils.isPositive(amount)) {
+            IO.println(
+                    "Amount must be greater than zero."
+            );
             return;
         }
 
@@ -233,12 +243,28 @@ public class Patient extends Person {
     }
 
 
-    // Overriding ______________________________________________
+    // Overloading
+
+    public void updateContact(String phoneNumber) {
+        setPhoneNumber(phoneNumber);
+    }
+
+
+    public void updateContact(
+            String phoneNumber,
+            String email) {
+
+        setPhoneNumber(phoneNumber);
+        setEmail(email);
+    }
+
+
+    // Overriding
 
     @Override
     public void displayInfo() {
 
-        System.out.println(
+        IO.println(
                 "Patient: " + getFullName() +
                         ", ID: " + getId() +
                         ", Blood Group: " + getBloodGroup() +
@@ -249,4 +275,3 @@ public class Patient extends Person {
         );
     }
 }
-
