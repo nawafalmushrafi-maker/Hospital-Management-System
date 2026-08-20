@@ -1,32 +1,97 @@
 package Utills;
-
 public class HelperUtills {
     private static int idCounter = 1;
-
-    // Generate ID without prefix **
-
+    // Empty Checks _____________________________________________
+    public static boolean isEmpty(String text) {
+        return text == null || text.trim().isEmpty();
+    }
+    public static boolean isEmpty(Object[] collection) {
+        if (collection == null || collection.length == 0) {
+            return true;
+        }
+        for (Object item : collection) {
+            if (item != null) {
+                return false;
+            }
+        }
+        return true;
+    }
+    // Valid Text _______________________________________________
+    public static boolean isValidText(String text) {
+        return !isEmpty(text);
+    }
+    public static boolean isValidText(
+            String text,
+            int minLength) {
+        return !isEmpty(text)
+                && text.trim().length() >= minLength;
+    }
+    public static boolean isValidText(
+            String text,
+            int minLength,
+            int maxLength) {
+        if (isEmpty(text)) {
+            return false;
+        }
+        int length = text.trim().length();
+        return length >= minLength
+                && length <= maxLength;
+    }
+    // ID Generation ____________________________________________
     public static String generateId() {
-
         String id = String.valueOf(idCounter);
-
         idCounter++;
-
         return id;
     }
-
-    // Generate ID without prefix **
-
     public static String generateId(String prefix) {
-
-        if (prefix == null) {
-            prefix = "";
-        }
-
         String id = prefix + idCounter;
-
         idCounter++;
-
         return id;
+    }
+    // Positive Checks __________________________________________
+    public static boolean isPositive(int number) {
+        return number > 0;
+    }
+    public static boolean isPositive(double number) {
+        return number > 0;
+    }
+    // Range Checks _____________________________________________
+    public static boolean isInRange(
+            int number,
+            int min,
+            int max) {
+        return number >= min && number <= max;
+    }
+    public static boolean isInRange(
+            double number,
+            double min,
+            double max) {
+        return number >= min && number <= max;
+    }
+    // Age Validation ___________________________________________
+    public static boolean isValidAge(int age) {
+        return age >= 0 && age <= 120;
+    }
+    // Phone Validation _________________________________________
+    public static boolean isValidPhone(String phone) {
+        if (phone == null) {
+            return false;
+        }
+        return phone.length() == 8;
+    }
+    // Allowed Values ___________________________________________
+    public static boolean isOneOf(
+            String value,
+            String[] allowedValues) {
+        if (value == null || allowedValues == null) {
+            return false;
+        }
+        for (String allowed : allowedValues) {
+            if (allowed != null
+                    && value.equalsIgnoreCase(allowed)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
-
