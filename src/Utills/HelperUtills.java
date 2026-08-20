@@ -1,7 +1,7 @@
 package Utills;
 public class HelperUtills {
     private static int idCounter = 1;
-    // Empty Checks _____________________________________________
+    // Empty Checks
     public static boolean isEmpty(String text) {
         return text == null || text.trim().isEmpty();
     }
@@ -16,7 +16,7 @@ public class HelperUtills {
         }
         return true;
     }
-    // Valid Text _______________________________________________
+    // Valid Text
     public static boolean isValidText(String text) {
         return !isEmpty(text);
     }
@@ -37,7 +37,8 @@ public class HelperUtills {
         return length >= minLength
                 && length <= maxLength;
     }
-    // ID Generation ____________________________________________
+    // ID Generation
+
     public static String generateId() {
         String id = String.valueOf(idCounter);
         idCounter++;
@@ -48,14 +49,14 @@ public class HelperUtills {
         idCounter++;
         return id;
     }
-    // Positive Checks __________________________________________
+    // Positive Check
     public static boolean isPositive(int number) {
         return number > 0;
     }
     public static boolean isPositive(double number) {
         return number > 0;
     }
-    // Range Checks _____________________________________________
+    // Range Checks
     public static boolean isInRange(
             int number,
             int min,
@@ -68,18 +69,18 @@ public class HelperUtills {
             double max) {
         return number >= min && number <= max;
     }
-    // Age Validation ___________________________________________
+    // Age Validation
     public static boolean isValidAge(int age) {
         return age >= 0 && age <= 120;
     }
-    // Phone Validation _________________________________________
+    // Phone Validation
     public static boolean isValidPhone(String phone) {
         if (phone == null) {
             return false;
         }
         return phone.length() == 8;
     }
-    // Allowed Values ___________________________________________
+    // Allowed Values
     public static boolean isOneOf(
             String value,
             String[] allowedValues) {
