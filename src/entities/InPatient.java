@@ -1,215 +1,181 @@
 package entities;
 
-public class InPatient {
-    public class Inpatient extends Patient {
+import utils.HelperUtils;
 
-        private String admissionDate;
-        private String roomNumber;
-        private double dailyCharges;
-        private int daysAdmitted;
+public class InPatient extends Patient {
+
+    private String admissionDate;
+    private String roomNumber;
+    private double dailyCharges;
+    private int daysAdmitted;
 
 
-        // * Constructor *
+    // Constructor
 
-        public Inpatient(
-                String id,
-                String firstName,
-                String lastName,
-                String dateOfBirth,
-                String gender,
-                String phoneNumber,
-                String email,
-                String address,
-                String nationalId,
-                int age,
-                boolean active,
-                String bloodGroup,
-                String emergencyContact,
-                String registrationDate,
-                double outstandingBalance,
-                boolean insured,
-                String admissionDate,
-                String roomNumber,
-                double dailyCharges,
-                int daysAdmitted) {
+    public InPatient(
+            String id,
+            String firstName,
+            String lastName,
+            String dateOfBirth,
+            String gender,
+            String phoneNumber,
+            String email,
+            String address,
+            String nationalId,
+            int age,
+            boolean active,
+            String bloodGroup,
+            String emergencyContact,
+            String registrationDate,
+            double outstandingBalance,
+            boolean insured,
+            String admissionDate,
+            String roomNumber,
+            double dailyCharges,
+            int daysAdmitted) {
 
-            super(
-                    id,
-                    firstName,
-                    lastName,
-                    dateOfBirth,
-                    gender,
-                    phoneNumber,
-                    email,
-                    address,
-                    nationalId,
-                    age,
-                    active,
-                    bloodGroup,
-                    emergencyContact,
-                    registrationDate,
-                    outstandingBalance,
-                    insured
+        super(
+                id,
+                firstName,
+                lastName,
+                dateOfBirth,
+                gender,
+                phoneNumber,
+                email,
+                address,
+                nationalId,
+                age,
+                active,
+                bloodGroup,
+                emergencyContact,
+                registrationDate,
+                outstandingBalance,
+                insured
+        );
+
+        setAdmissionDate(admissionDate);
+        setRoomNumber(roomNumber);
+        setDailyCharges(dailyCharges);
+        setDaysAdmitted(daysAdmitted);
+    }
+
+
+    // Setters
+
+    public void setAdmissionDate(String admissionDate) {
+
+        if (!HelperUtils.isValidText(admissionDate)) {
+            System.out.println(
+                    "Admission date cannot be empty."
             );
-
-            setAdmissionDate(admissionDate);
-            setRoomNumber(roomNumber);
-            setDailyCharges(dailyCharges);
-            setDaysAdmitted(daysAdmitted);
+            return;
         }
 
-
-        // * Setters *
-
-        public void setAdmissionDate(String admissionDate) {
-
-            if (admissionDate == null || admissionDate.trim().isEmpty()) {
-                IO.println("Admission date cannot be empty.");
-                return;
-            }
-
-            this.admissionDate = admissionDate;
-        }
+        this.admissionDate = admissionDate;
+    }
 
 
-        public void setRoomNumber(String roomNumber) {
+    public void setRoomNumber(String roomNumber) {
 
-            if (roomNumber == null || roomNumber.trim().isEmpty()) {
-                IO.println("Room number cannot be empty.");
-                return;
-            }
-
-            this.roomNumber = roomNumber;
-        }
-
-
-        public void setDailyCharges(double dailyCharges) {
-
-            if (dailyCharges < 0) {
-                IO.println("Daily charges cannot be negative.");
-                return;
-            }
-
-            this.dailyCharges = dailyCharges;
-        }
-
-
-        public void setDaysAdmitted(int daysAdmitted) {
-
-            if (daysAdmitted < 0) {
-                IO.println("Days admitted cannot be negative.");
-                return;
-            }
-
-            this.daysAdmitted = daysAdmitted;
-        }
-
-
-        // * Getters *
-
-        public String getAdmissionDate() {
-            return admissionDate;
-        }
-
-
-        public String getRoomNumber() {
-            return roomNumber;
-        }
-
-
-        public double getDailyCharges() {
-            return dailyCharges;
-        }
-
-
-        public int getDaysAdmitted() {
-            return daysAdmitted;
-        }
-
-
-        // * Calculate Total Charges *
-
-        public double calculateTotalCharges() {
-
-            return dailyCharges * daysAdmitted;
-        }
-        // * Add One Day *
-
-        public void addDay() {
-
-            daysAdmitted++;
-
-            IO.println(
-                    "One day added. Total days: " + daysAdmitted
+        if (!HelperUtils.isValidText(roomNumber)) {
+            System.out.println(
+                    "Room number cannot be empty."
             );
+            return;
         }
 
+        this.roomNumber = roomNumber;
+    }
 
-        // * Update Room *
 
-        public void changeRoom(String newRoomNumber) {
+    public void setDailyCharges(double dailyCharges) {
 
-            if (newRoomNumber == null ||
-                    newRoomNumber.trim().isEmpty()) {
+        if (!HelperUtils.isInRange(
+                dailyCharges,
+                0.0,
+                Double.MAX_VALUE)) {
 
-                IO.println("Room number cannot be empty.");
-                return;
-            }
-
-            roomNumber = newRoomNumber;
-
-            IO.println(
-                    "Room changed to: " + roomNumber
+            System.out.println(
+                    "Daily charges cannot be negative."
             );
+            return;
         }
 
+        this.dailyCharges = dailyCharges;
+    }
 
-        // * Discharge Patient *
 
-        public void dischargePatient() {
+    public void setDaysAdmitted(int daysAdmitted) {
 
-            setActive(false);
+        if (!HelperUtils.isInRange(
+                daysAdmitted,
+                0,
+                Integer.MAX_VALUE)) {
 
-            IO.println(
-                    "Patient " + getFullName() +
-                            " has been discharged."
+            System.out.println(
+                    "Days admitted cannot be negative."
             );
+            return;
         }
 
+        this.daysAdmitted = daysAdmitted;
+    }
 
-        // * Display Information *
 
-        @Override
-        public void displayInfo() {
+    // Getters
 
-            IO.println(
-                    "In-Patient: " + getFullName() +
-                            ", ID: " + getId() +
-                            ", Blood Group: " + getBloodGroup() +
-                            ", Admission Date: " + getAdmissionDate() +
-                            ", Room: " + getRoomNumber() +
-                            ", Daily Charges: " + getDailyCharges() +
-                            ", Days Admitted: " + getDaysAdmitted() +
-                            ", Total Charges: " + calculateTotalCharges() +
-                            ", Active: " + isActive()
-            );
-        }
-        //* add Patient updateContact overloads *
+    public String getAdmissionDate() {
+        return admissionDate;
+    }
 
-        public void updateContact(String phoneNumber) {
-            setPhoneNumber(phoneNumber);
-        }
+    public String getRoomNumber() {
+        return roomNumber;
+    }
 
-        public void updateContact(
-                String phoneNumber,
-                String email) {
+    public double getDailyCharges() {
+        return dailyCharges;
+    }
 
-            setPhoneNumber(phoneNumber);
-            setEmail(email);
-        }
+    public int getDaysAdmitted() {
+        return daysAdmitted;
+    }
+
+
+    public void admit(
+            String admissionDate,
+            String roomNumber,
+            int daysAdmitted) {
+
+        setAdmissionDate(admissionDate);
+        setRoomNumber(roomNumber);
+        setDaysAdmitted(daysAdmitted);
+    }
+
+
+    public void discharge() {
+        admissionDate = null;
+        roomNumber = null;
+        daysAdmitted = 0;
+    }
+
+
+    public double totalRoomCost() {
+        return dailyCharges * daysAdmitted;
+    }
+
+
+    @Override
+    public void displayInfo() {
+
+        System.out.println(
+                "InPatient: " + getFullName() +
+                        ", ID: " + getId() +
+                        ", Blood Group: " + getBloodGroup() +
+                        ", Admission Date: " + getAdmissionDate() +
+                        ", Room Number: " + getRoomNumber() +
+                        ", Daily Charges: " + getDailyCharges() +
+                        ", Days Admitted: " + getDaysAdmitted() +
+                        ", Total Room Cost: " + totalRoomCost()
+        );
     }
 }
-
-
-
-
