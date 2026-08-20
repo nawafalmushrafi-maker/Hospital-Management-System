@@ -67,7 +67,7 @@ public class Doctor extends Person {
     public void setSpecialization(String specialization) {
 
         if (!HelperUtils.isValidText(specialization)) {
-            IO.println(
+            System.out.println(
                     "Specialization cannot be empty."
             );
             return;
@@ -84,7 +84,7 @@ public class Doctor extends Person {
                 0,
                 Integer.MAX_VALUE)) {
 
-            IO.println(
+            System.out.println(
                     "Experience years cannot be negative."
             );
             return;
@@ -270,3 +270,5 @@ public class Doctor extends Person {
         );
     }
 }
+
+
