@@ -1,140 +1,74 @@
 package Services;
 
-import entities.Appointment;
-import entities.Doctor;
-import entities.Patient;
+import entities.MedicalRecord;
 import interfaces.Manageable;
 import interfaces.Searchable;
 
-public class Appointmentservice
-        implements Manageable, Searchable {
+public class Appointmentservice implements Manageable, Searchable {
 
-    private Appointment[] appointments =
-            new Appointment[100];
-
-    private int appointmentCount = 0;
+    private MedicalRecord[] records = new MedicalRecord[100];
+    private int recordCount = 0;
 
 
-    // Schedule Overloads
 
-    public void schedule(
-            String patientId,
-            String doctorId,
-            String date) {
-
-        Appointment appointment =
-                new Appointment(
-                        "A" + (appointmentCount + 1),
-                        patientId,
-                        doctorId,
-                        date,
-                        "09:00",
-                        "Scheduled",
-                        "General",
-                        false
-                );
-
-        addAppointment(appointment);
-    }
-
-
-    public void schedule(
-            String patientId,
-            String doctorId,
-            String date,
-            String time) {
-
-        Appointment appointment =
-                new Appointment(
-                        "A" + (appointmentCount + 1),
-                        patientId,
-                        doctorId,
-                        date,
-                        time,
-                        "Scheduled",
-                        "General",
-                        false
-                );
-
-        addAppointment(appointment);
-    }
-
-
-    public void schedule(
-            Patient patient,
-            Doctor doctor,
-            String date,
-            String time,
-            String reason) {
-
-        if (patient == null || doctor == null) {
-            System.out.println(
-                    "Patient and Doctor cannot be null."
-            );
-            return;
-        }
-
-        Appointment appointment =
-                new Appointment(
-                        "A" + (appointmentCount + 1),
-                        patient.getId(),
-                        doctor.getId(),
-                        date,
-                        time,
-                        "Scheduled",
-                        reason,
-                        false
-                );
-
-        addAppointment(appointment);
-    }
+    // Add
 
 
     @Override
     public void add(Object entity) {
 
-        if (!(entity instanceof Appointment)) {
-            System.out.println(
-                    "Only Appointment objects can be added."
+        if (!(entity instanceof MedicalRecord)) {
+            IO.println(
+                    "Only MedicalRecord objects can be added."
             );
             return;
         }
 
-        if (appointmentCount >= appointments.length) {
-            System.out.println(
-                    "Appointment storage is full."
+        MedicalRecord record =
+                (MedicalRecord) entity;
+
+        if (searchById(record.getRecordId()) != null) {
+            IO.println(
+                    "Record ID already exists."
             );
             return;
         }
 
-        appointments[appointmentCount] =
-                (Appointment) entity;
+        if (recordCount >= records.length) {
+            IO.println(
+                    "Record storage is full."
+            );
+            return;
+        }
 
-        appointmentCount++;
+        records[recordCount] = record;
+        recordCount++;
     }
+
+
+
+    // Remove By ID
 
 
     @Override
     public boolean removeById(String id) {
 
-        for (int i = 0; i < appointmentCount; i++) {
+        for (int i = 0; i < recordCount; i++) {
 
-            if (appointments[i]
-                    .getAppointmentId()
+            if (records[i]
+                    .getRecordId()
                     .equals(id)) {
 
                 for (int j = i;
-                     j < appointmentCount - 1;
+                     j < recordCount - 1;
                      j++) {
 
-                    appointments[j] =
-                            appointments[j + 1];
+                    records[j] =
+                            records[j + 1];
                 }
 
-                appointments[appointmentCount - 1] =
-                        null;
-
-                appointmentCount--;
+                records[recordCount - 1] = null;
+                recordCount--;
 
                 return true;
             }
@@ -144,60 +78,64 @@ public class Appointmentservice
     }
 
 
+
+    // Get All
+
     @Override
     public Object[] getAll() {
 
-        Appointment[] result =
-                new Appointment[appointmentCount];
+        MedicalRecord[] result =
+                new MedicalRecord[recordCount];
 
-        for (int i = 0; i < appointmentCount; i++) {
-            result[i] = appointments[i];
+        for (int i = 0; i < recordCount; i++) {
+            result[i] = records[i];
         }
 
         return result;
     }
 
 
+
+    // Search By Keyword
+
+
     @Override
     public Object[] search(String keyword) {
 
-        Appointment[] temp =
-                new Appointment[appointmentCount];
+        MedicalRecord[] temp =
+                new MedicalRecord[recordCount];
 
         int count = 0;
 
-        for (int i = 0; i < appointmentCount; i++) {
+        for (int i = 0; i < recordCount; i++) {
 
-            Appointment appointment =
-                    appointments[i];
+            MedicalRecord record = records[i];
 
-            if (appointment
-                    .getAppointmentId()
-                    .toLowerCase()
-                    .contains(keyword.toLowerCase())
+            if (
+                    record.getRecordId()
+                            .toLowerCase()
+                            .contains(keyword.toLowerCase())
 
-                    || appointment
-                    .getPatientId()
-                    .toLowerCase()
-                    .contains(keyword.toLowerCase())
+                            || record.getPatientId()
+                            .toLowerCase()
+                            .contains(keyword.toLowerCase())
 
-                    || appointment
-                    .getDoctorId()
-                    .toLowerCase()
-                    .contains(keyword.toLowerCase())
+                            || record.getDoctorId()
+                            .toLowerCase()
+                            .contains(keyword.toLowerCase())
 
-                    || appointment
-                    .getStatus()
-                    .toLowerCase()
-                    .contains(keyword.toLowerCase())) {
+                            || record.getDiagnosis()
+                            .toLowerCase()
+                            .contains(keyword.toLowerCase())
+            ) {
 
-                temp[count] = appointment;
+                temp[count] = record;
                 count++;
             }
         }
 
-        Appointment[] result =
-                new Appointment[count];
+        MedicalRecord[] result =
+                new MedicalRecord[count];
 
         for (int i = 0; i < count; i++) {
             result[i] = temp[i];
@@ -207,16 +145,19 @@ public class Appointmentservice
     }
 
 
+
+    // Search By ID
+
     @Override
     public Object searchById(String id) {
 
-        for (int i = 0; i < appointmentCount; i++) {
+        for (int i = 0; i < recordCount; i++) {
 
-            if (appointments[i]
-                    .getAppointmentId()
+            if (records[i]
+                    .getRecordId()
                     .equals(id)) {
 
-                return appointments[i];
+                return records[i];
             }
         }
 
@@ -224,14 +165,61 @@ public class Appointmentservice
     }
 
 
-    private void addAppointment(
-            Appointment appointment) {
 
-        add(appointment);
+    // List By Patient
+
+    public MedicalRecord[] listByPatient(
+            String patientId) {
+
+        MedicalRecord[] temp =
+                new MedicalRecord[recordCount];
+
+        int count = 0;
+
+        for (int i = 0; i < recordCount; i++) {
+
+            if (records[i]
+                    .getPatientId()
+                    .equalsIgnoreCase(patientId)) {
+
+                temp[count] = records[i];
+                count++;
+            }
+        }
+
+        MedicalRecord[] result =
+                new MedicalRecord[count];
+
+        for (int i = 0; i < count; i++) {
+            result[i] = temp[i];
+        }
+
+        return result;
     }
 
 
-    public int getAppointmentCount() {
-        return appointmentCount;
+    // Count Confidential
+
+
+    public int countConfidential() {
+
+        int count = 0;
+
+        for (int i = 0; i < recordCount; i++) {
+
+            if (records[i].isConfidential()) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+
+
+    // Record Count
+
+    public int getRecordCount() {
+        return recordCount;
     }
 }
