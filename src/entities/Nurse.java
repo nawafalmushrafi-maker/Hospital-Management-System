@@ -1,5 +1,7 @@
 package entities;
 
+import utils.HelperUtils;
+
 public class Nurse extends Person {
 
     private String departmentId;
@@ -9,7 +11,7 @@ public class Nurse extends Person {
     private int yearsOfService;
 
 
-    // Constructor *
+    // Constructor
 
     public Nurse(
             String id,
@@ -50,12 +52,14 @@ public class Nurse extends Person {
     }
 
 
-    // Setters *
+    // Setters
 
     public void setDepartmentId(String departmentId) {
 
-        if (departmentId == null || departmentId.trim().isEmpty()) {
-            System.out.println("Department ID cannot be empty.");
+        if (!HelperUtils.isValidText(departmentId)) {
+            IO.println(
+                    "Department ID cannot be empty."
+            );
             return;
         }
 
@@ -65,12 +69,17 @@ public class Nurse extends Person {
 
     public void setShift(String shift) {
 
-        if (shift == null ||
-                (!shift.equalsIgnoreCase("Morning")
-                        && !shift.equalsIgnoreCase("Evening")
-                        && !shift.equalsIgnoreCase("Night"))) {
+        String[] allowedShifts = {
+                "Morning",
+                "Evening",
+                "Night"
+        };
 
-            System.out.println(
+        if (!HelperUtils.isOneOf(
+                shift,
+                allowedShifts)) {
+
+            IO.println(
                     "Shift must be Morning, Evening, or Night."
             );
             return;
@@ -82,8 +91,12 @@ public class Nurse extends Person {
 
     public void setYearsOfService(int yearsOfService) {
 
-        if (yearsOfService < 0) {
-            System.out.println(
+        if (!HelperUtils.isInRange(
+                yearsOfService,
+                0,
+                Integer.MAX_VALUE)) {
+
+            IO.println(
                     "Years of service cannot be negative."
             );
             return;
@@ -93,37 +106,34 @@ public class Nurse extends Person {
     }
 
 
-    // Getters *
+    // Getters
 
     public String getDepartmentId() {
         return departmentId;
     }
 
-
     public String getShift() {
         return shift;
     }
 
-
     public int getYearsOfService() {
         return yearsOfService;
     }
-    // Assign Patient *
+
+
+    // Assign Patient
 
     public void assignPatient(String patientId) {
 
-        if (patientId == null || patientId.trim().isEmpty()) {
-            System.out.println("Patient ID cannot be empty.");
-            return;
-        }
-
-        if (hasPatient(patientId)) {
-            System.out.println("Patient is already assigned.");
+        if (!HelperUtils.isValidText(patientId)) {
+            IO.println(
+                    "Patient ID cannot be empty."
+            );
             return;
         }
 
         if (patientCount >= assignedPatientIds.length) {
-            System.out.println("Patient list is full.");
+            IO.println("Patient list is full.");
             return;
         }
 
@@ -132,37 +142,18 @@ public class Nurse extends Person {
     }
 
 
-    // Check Patient *
-
-    public boolean hasPatient(String patientId) {
-
-        if (patientId == null || patientId.trim().isEmpty()) {
-            return false;
-        }
-
-        for (int i = 0; i < patientCount; i++) {
-
-            if (assignedPatientIds[i].equalsIgnoreCase(patientId)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-
-    // Unassign Patient *
+    // Unassign Patient
 
     public void unassignPatient(String patientId) {
 
-        if (patientId == null || patientId.trim().isEmpty()) {
-            System.out.println("Patient ID cannot be empty.");
+        if (!HelperUtils.isValidText(patientId)) {
             return;
         }
 
         for (int i = 0; i < patientCount; i++) {
 
-            if (assignedPatientIds[i].equalsIgnoreCase(patientId)) {
+            if (assignedPatientIds[i]
+                    .equalsIgnoreCase(patientId)) {
 
                 for (int j = i; j < patientCount - 1; j++) {
                     assignedPatientIds[j] =
@@ -175,33 +166,24 @@ public class Nurse extends Person {
                 return;
             }
         }
-
-        System.out.println("Patient not assigned to this nurse.");
     }
 
-
-    // Patient Load *
 
     public int getPatientLoad() {
         return patientCount;
     }
 
 
-    // Night Shift *
-
     public boolean isNightShift() {
-
-        return shift != null &&
-                shift.equalsIgnoreCase("Night");
+        return shift != null
+                && shift.equalsIgnoreCase("Night");
     }
 
-
-    // Overriding *
 
     @Override
     public void displayInfo() {
 
-        System.out.println(
+        IO.println(
                 "Nurse: " + getFullName() +
                         ", ID: " + getId() +
                         ", Department ID: " + getDepartmentId() +
@@ -211,6 +193,3 @@ public class Nurse extends Person {
         );
     }
 }
-
-
-
