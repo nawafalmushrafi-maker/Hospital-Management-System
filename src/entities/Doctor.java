@@ -1,8 +1,9 @@
 package entities;
 
+import utils.HelperUtils;
+
 public class Doctor extends Person {
 
-    // * Doctor Attributes *
     private String specialization;
     private int experienceYears;
     private double consultationFee;
@@ -16,8 +17,7 @@ public class Doctor extends Person {
     private boolean onCall;
 
 
-    // * Constructor *
-
+    // Constructor
     public Doctor(
             String id,
             String firstName,
@@ -66,8 +66,10 @@ public class Doctor extends Person {
 
     public void setSpecialization(String specialization) {
 
-        if (specialization == null || specialization.trim().isEmpty()) {
-            IO.println("Specialization cannot be empty.");
+        if (!HelperUtils.isValidText(specialization)) {
+            IO.println(
+                    "Specialization cannot be empty."
+            );
             return;
         }
 
@@ -77,8 +79,14 @@ public class Doctor extends Person {
 
     public void setExperienceYears(int experienceYears) {
 
-        if (experienceYears < 0) {
-            IO.println("Experience years cannot be negative.");
+        if (!HelperUtils.isInRange(
+                experienceYears,
+                0,
+                Integer.MAX_VALUE)) {
+
+            IO.println(
+                    "Experience years cannot be negative."
+            );
             return;
         }
 
@@ -88,8 +96,14 @@ public class Doctor extends Person {
 
     public void setConsultationFee(double consultationFee) {
 
-        if (consultationFee < 0) {
-            IO.println("Consultation fee cannot be negative.");
+        if (!HelperUtils.isInRange(
+                consultationFee,
+                0.0,
+                Double.MAX_VALUE)) {
+
+            IO.println(
+                    "Consultation fee cannot be negative."
+            );
             return;
         }
 
@@ -108,30 +122,28 @@ public class Doctor extends Person {
         return specialization;
     }
 
-
     public int getExperienceYears() {
         return experienceYears;
     }
-
 
     public double getConsultationFee() {
         return consultationFee;
     }
 
-
     public boolean isOnCall() {
         return onCall;
     }
 
-
     public int getPatientLoad() {
         return patientCount;
     }
-// * Slot Methods *
+
+
+    // Slots
 
     public void addSlot(String slot) {
 
-        if (slot == null || slot.trim().isEmpty()) {
+        if (!HelperUtils.isValidText(slot)) {
             IO.println("Slot cannot be empty.");
             return;
         }
@@ -153,7 +165,7 @@ public class Doctor extends Person {
 
     public boolean hasSlot(String slot) {
 
-        if (slot == null || slot.trim().isEmpty()) {
+        if (!HelperUtils.isValidText(slot)) {
             return false;
         }
 
@@ -170,8 +182,7 @@ public class Doctor extends Person {
 
     public void removeSlot(String slot) {
 
-        if (slot == null || slot.trim().isEmpty()) {
-            IO.println("Slot cannot be empty.");
+        if (!HelperUtils.isValidText(slot)) {
             return;
         }
 
@@ -180,7 +191,8 @@ public class Doctor extends Person {
             if (availableSlots[i].equalsIgnoreCase(slot)) {
 
                 for (int j = i; j < slotCount - 1; j++) {
-                    availableSlots[j] = availableSlots[j + 1];
+                    availableSlots[j] =
+                            availableSlots[j + 1];
                 }
 
                 availableSlots[slotCount - 1] = null;
@@ -189,22 +201,15 @@ public class Doctor extends Person {
                 return;
             }
         }
-
-        IO.println("Slot not found.");
     }
 
 
-    //* Patient Assignment *
+    // Patient Assignment
 
     public void assignPatient(String patientId) {
 
-        if (patientId == null || patientId.trim().isEmpty()) {
+        if (!HelperUtils.isValidText(patientId)) {
             IO.println("Patient ID cannot be empty.");
-            return;
-        }
-
-        if (hasPatient(patientId)) {
-            IO.println("Patient is already assigned.");
             return;
         }
 
@@ -218,29 +223,14 @@ public class Doctor extends Person {
     }
 
 
-    public boolean hasPatient(String patientId) {
-
-        if (patientId == null || patientId.trim().isEmpty()) {
-            return false;
-        }
-
-        for (int i = 0; i < patientCount; i++) {
-
-            if (assignedPatientIds[i].equalsIgnoreCase(patientId)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-
-    //* Fee Method *
+    // Fees
 
     public void raiseFee(double amount) {
 
-        if (amount <= 0) {
-            IO.println("Fee increase must be greater than zero.");
+        if (!HelperUtils.isPositive(amount)) {
+            IO.println(
+                    "Fee increase must be greater than zero."
+            );
             return;
         }
 
@@ -250,7 +240,21 @@ public class Doctor extends Person {
     }
 
 
-    //* Overriding *
+    public void updateFee(double fee) {
+        setConsultationFee(fee);
+    }
+
+
+    public void updateFee(
+            double fee,
+            String reason) {
+
+        setConsultationFee(fee);
+        IO.println("Reason: " + reason);
+    }
+
+
+    // Overriding
 
     @Override
     public void displayInfo() {
@@ -265,24 +269,4 @@ public class Doctor extends Person {
                         ", On Call: " + isOnCall()
         );
     }
-
-    public void updateFee(double fee) {
-        setConsultationFee(fee);
-    }
-
-
-    public void updateFee(double fee, String reason) {
-
-        setConsultationFee(fee);
-
-        if (reason == null || reason.trim().isEmpty()) {
-            IO.println("Reason cannot be empty.");
-            return;
-        }
-
-        IO.println("Reason: " + reason);
-    }
 }
-
-
-
