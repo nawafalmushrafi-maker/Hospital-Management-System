@@ -1,11 +1,11 @@
-package Services;
+package services;
 
 import entities.InPatient;
 import entities.Patient;
 import interfaces.Manageable;
 import interfaces.Searchable;
 
-class PatientService implements Manageable, Searchable {
+public class PatientService implements Manageable, Searchable {
 
     private Patient[] patients = new Patient[100];
     private int patientCount = 0;

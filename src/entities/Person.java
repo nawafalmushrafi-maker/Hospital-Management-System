@@ -1,9 +1,7 @@
 package entities;
-
-import java.security.KeyStore;
-
-public class Person {
-    // Attributes *
+import interfaces.Displayable;
+import utils.HelperUtils;
+public class Person implements Displayable {
     private String id;
     private String firstName;
     private String lastName;
@@ -14,11 +12,10 @@ public class Person {
     private String address;
     private String nationalId;
     private int age;
-    private boolean activeStatus;
     private boolean active;
 
+    // Constructors
 
-    // Full constructor *
     public Person(
             String id,
             String firstName,
@@ -31,7 +28,6 @@ public class Person {
             String nationalId,
             int age,
             boolean active) {
-
         setId(id);
         setFirstName(firstName);
         setLastName(lastName);
@@ -44,12 +40,10 @@ public class Person {
         setAge(age);
         setActive(active);
     }
-    //overloaded *
     public Person(
             String id,
             String firstName,
             String lastName) {
-
         this(
                 id,
                 firstName,
@@ -63,170 +57,129 @@ public class Person {
                 0,
                 true
         );
-
-
     }
-    // Setters *
-
+    // Setters
     public void setId(String id) {
-        if (id == null || id.trim().isEmpty()) {
-            System.out.println("ID cannot be empty.");
+        if (!HelperUtils.isValidText(id)) {
+            IO.println("ID cannot be empty.");
             return;
         }
-
         this.id = id;
     }
-
     public void setFirstName(String firstName) {
-        if (firstName == null || firstName.trim().isEmpty()) {
-            System.out.println("First name cannot be empty.");
+        if (!HelperUtils.isValidText(firstName)) {
+            IO.println("First name cannot be empty.");
             return;
         }
-
         this.firstName = firstName;
     }
-
     public void setLastName(String lastName) {
-        if (lastName == null || lastName.trim().isEmpty()) {
-            System.out.println("Last name cannot be empty.");
+        if (!HelperUtils.isValidText(lastName)) {
+            IO.println("Last name cannot be empty.");
             return;
         }
-
         this.lastName = lastName;
     }
-
     public void setDateOfBirth(String dateOfBirth) {
-        if (dateOfBirth == null || dateOfBirth.trim().isEmpty()) {
-            System.out.println("Date of birth cannot be empty.");
+        if (!HelperUtils.isValidText(dateOfBirth)) {
+            IO.println("Date of birth cannot be empty.");
             return;
         }
-
         this.dateOfBirth = dateOfBirth;
     }
-
     public void setGender(String gender) {
-        if (gender == null || gender.trim().isEmpty()) {
-            System.out.println("Gender cannot be empty.");
+        if (!HelperUtils.isValidText(gender)) {
+            IO.println("Gender cannot be empty.");
             return;
         }
-
         this.gender = gender;
     }
-
     public void setPhoneNumber(String phoneNumber) {
-        if (phoneNumber == null || phoneNumber.trim().isEmpty()) {
-            System.out.println("Phone number cannot be empty.");
+        if (!HelperUtils.isValidPhone(phoneNumber)) {
+            IO.println("Invalid phone number.");
             return;
         }
-
-        if (!phoneNumber.matches("\\d+")) {
-            System.out.println("Phone number must contain digits only.");
-            return;
-        }
-
         this.phoneNumber = phoneNumber;
     }
-
     public void setEmail(String email) {
-        if (email == null || email.trim().isEmpty()) {
-            System.out.println("Email cannot be empty.");
+        if (!HelperUtils.isValidText(email)
+                || !email.contains("@")) {
+            IO.println("Invalid email.");
             return;
         }
-
-        if (!email.contains("@")) {
-            System.out.println("Invalid email.");
-            return;
-        }
-
         this.email = email;
     }
-
     public void setAddress(String address) {
-        if (address == null || address.trim().isEmpty()) {
-            System.out.println("Address cannot be empty.");
+        if (!HelperUtils.isValidText(address)) {
+            IO.println("Address cannot be empty.");
             return;
         }
-
         this.address = address;
     }
-
     public void setNationalId(String nationalId) {
-        if (nationalId == null || nationalId.trim().isEmpty()) {
-            System.out.println("National ID cannot be empty.");
+        if (!HelperUtils.isValidText(nationalId)) {
+            IO.println("National ID cannot be empty.");
             return;
         }
-
         this.nationalId = nationalId;
     }
-
     public void setAge(int age) {
-        if (age < 0 || age > 120) {
-            System.out.println("Age must be between 0 and 120.");
+        if (!HelperUtils.isValidAge(age)) {
+            System.out.println(
+                    "Age must be between 0 and 120."
+            );
             return;
         }
-
         this.age = age;
     }
-
     public void setActive(boolean active) {
         this.active = active;
     }
-
-
-    // Getters *
-
+    // Getters
     public String getId() {
         return id;
     }
-
     public String getFirstName() {
         return firstName;
     }
-
     public String getLastName() {
         return lastName;
     }
-
     public String getDateOfBirth() {
         return dateOfBirth;
     }
-
     public String getGender() {
         return gender;
     }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }
-
     public String getEmail() {
         return email;
     }
-
     public String getAddress() {
         return address;
     }
-
     public String getNationalId() {
         return nationalId;
     }
-
     public int getAge() {
         return age;
     }
-
     public boolean isActive() {
         return active;
     }
+    // Methods
 
-    //
     public String getFullName() {
         return getFirstName() + " " + getLastName();
     }
-
-
+    public boolean isAdult() {
+        return getAge() >= 18;
+    }
+    @Override
     public void displayInfo() {
-        System.out.println(
+        IO.println(
                 "ID: " + getId() +
                         ", Name: " + getFullName() +
                         ", Age: " + getAge() +
@@ -234,6 +187,7 @@ public class Person {
                         ", Email: " + getEmail()
         );
     }
+    @Override
     public String displaySummary() {
         return getId() + " - " + getFullName();
     }
@@ -246,23 +200,15 @@ public class Person {
                 ", active=" + active +
                 '}';
     }
-
-    public boolean isAdult() {
-        return getAge() >= 18;
-    }
     @Override
     public boolean equals(Object obj) {
-
         if (this == obj) {
             return true;
         }
-
         if (!(obj instanceof Person)) {
             return false;
         }
-
         Person other = (Person) obj;
-
         return id != null && id.equals(other.id);
     }
 }

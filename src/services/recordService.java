@@ -1,10 +1,10 @@
-package Services;
+package services;
 
 import entities.MedicalRecord;
 import interfaces.Manageable;
 import interfaces.Searchable;
 
-public class RecordService
+public class recordService
         implements Manageable, Searchable {
 
     private MedicalRecord[] records =
@@ -144,7 +144,17 @@ public class RecordService
     }
 
 
-    public int getRecordCount() {
-        return recordCount;
+    public int countConfidential() {
+        int count = 0;
+        for (int i = 0; i < recordCount; i++) {
+            if (records[i].isConfidential()) {
+                count++;
+            }
+        }
+        return count;
     }
+
+   // public MedicalRecord[] listByPatient(String patientId) {
+     //  return patientId;
+   // }
 }
