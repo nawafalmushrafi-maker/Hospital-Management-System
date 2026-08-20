@@ -1,6 +1,9 @@
 package entities;
 
-public class MedicalRecord {
+import interfaces.Displayable;
+import utils.HelperUtils;
+
+public class MedicalRecord implements Displayable {
 
     private String recordId;
     private String patientId;
@@ -12,7 +15,7 @@ public class MedicalRecord {
     private boolean confidential;
 
 
-    // * Constructor *
+    // Constructor ______________________________________________
 
     public MedicalRecord(
             String recordId,
@@ -35,12 +38,14 @@ public class MedicalRecord {
     }
 
 
-    // * Setters *
+    // Setters
 
     public void setRecordId(String recordId) {
 
-        if (recordId == null || recordId.trim().isEmpty()) {
-            IO.println("Record ID cannot be empty.");
+        if (!HelperUtils.isValidText(recordId)) {
+            System.out.println(
+                    "Record ID cannot be empty."
+            );
             return;
         }
 
@@ -48,10 +53,13 @@ public class MedicalRecord {
     }
 
 
+
     public void setPatientId(String patientId) {
 
-        if (patientId == null || patientId.trim().isEmpty()) {
-            IO.println("Patient ID cannot be empty.");
+        if (!HelperUtils.isValidText(patientId)) {
+            System.out.println(
+                    "Patient ID cannot be empty."
+            );
             return;
         }
 
@@ -59,10 +67,14 @@ public class MedicalRecord {
     }
 
 
+
+
     public void setDoctorId(String doctorId) {
 
-        if (doctorId == null || doctorId.trim().isEmpty()) {
-            IO.println("Doctor ID cannot be empty.");
+        if (!HelperUtils.isValidText(doctorId)) {
+            System.out.println(
+                    "Doctor ID cannot be empty."
+            );
             return;
         }
 
@@ -70,10 +82,13 @@ public class MedicalRecord {
     }
 
 
-    public void setVisitDate(String visitDate) {
 
-        if (visitDate == null || visitDate.trim().isEmpty()) {
-            IO.println("Visit date cannot be empty.");
+
+    public void setVisitDate(String visitDate) {
+        if (!HelperUtils.isValidText(visitDate)) {
+            System.out.println(
+                    "Visit date cannot be empty."
+            );
             return;
         }
 
@@ -83,8 +98,10 @@ public class MedicalRecord {
 
     public void setDiagnosis(String diagnosis) {
 
-        if (diagnosis == null || diagnosis.trim().isEmpty()) {
-            IO.println("Diagnosis cannot be empty.");
+        if (!HelperUtils.isValidText(diagnosis)) {
+            System.out.println(
+                    "Diagnosis cannot be empty."
+            );
             return;
         }
 
@@ -94,8 +111,10 @@ public class MedicalRecord {
 
     public void setPrescription(String prescription) {
 
-        if (prescription == null || prescription.trim().isEmpty()) {
-            IO.println("Prescription cannot be empty.");
+        if (!HelperUtils.isValidText(prescription)) {
+            System.out.println(
+                    "Prescription cannot be empty."
+            );
             return;
         }
 
@@ -104,12 +123,6 @@ public class MedicalRecord {
 
 
     public void setNotes(String notes) {
-
-        if (notes == null || notes.trim().isEmpty()) {
-            this.notes = "";
-            return;
-        }
-
         this.notes = notes;
     }
 
@@ -119,57 +132,49 @@ public class MedicalRecord {
     }
 
 
-    // * Getters *
+    // Getters
 
     public String getRecordId() {
         return recordId;
     }
 
-
     public String getPatientId() {
         return patientId;
     }
-
 
     public String getDoctorId() {
         return doctorId;
     }
 
-
     public String getVisitDate() {
         return visitDate;
     }
-
 
     public String getDiagnosis() {
         return diagnosis;
     }
 
-
     public String getPrescription() {
         return prescription;
     }
-
 
     public String getNotes() {
         return notes;
     }
 
-
     public boolean isConfidential() {
         return confidential;
     }
 
-    // * Append Note *
 
     public void appendNote(String extraNote) {
 
-        if (extraNote == null || extraNote.trim().isEmpty()) {
+        if (!HelperUtils.isValidText(extraNote)) {
             System.out.println("Note cannot be empty.");
             return;
         }
 
-        if (notes == null || notes.trim().isEmpty()) {
+        if (!HelperUtils.isValidText(notes)) {
             notes = extraNote;
         } else {
             notes = notes + " | " + extraNote;
@@ -177,18 +182,15 @@ public class MedicalRecord {
     }
 
 
-    // * Confidential *
-
     public void markConfidential() {
         confidential = true;
     }
 
 
-    // * Display *
-
+    @Override
     public void displayInfo() {
 
-        IO.println(
+        System.out.println(
                 "Record ID: " + getRecordId() +
                         ", Patient ID: " + getPatientId() +
                         ", Doctor ID: " + getDoctorId() +
@@ -199,8 +201,13 @@ public class MedicalRecord {
                         ", Confidential: " + isConfidential()
         );
     }
+
+
+    @Override
+    public String displaySummary() {
+
+        return getRecordId()
+                + " - Patient: "
+                + getPatientId();
+    }
 }
-
-
-
-
